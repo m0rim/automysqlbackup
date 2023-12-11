@@ -1072,7 +1072,12 @@ parse_databases() {
 
   # -> remove excluded dbs from list
   for exclude in "${CONFIG_db_exclude[@]}"; do
-	for i in "${!alldbnames[@]}"; do if [[ "x${alldbnames[$i]}" = "x${exclude}" ]]; then unset 'alldbnames[i]'; fi; done
+    for i in "${!alldbnames[@]}"; do 
+      r="x${exclude/\*/\.\*}"
+      if [[ "x${alldbnames[$i]}" =~ $r ]]; then 
+        unset 'alldbnames[i]'; 
+      fi
+    done
   done
   # <- remove excluded dbs from list
 
